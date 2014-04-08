@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using System.Reflection; // For Missing.Value and BindingFlags
-using System.Runtime.InteropServices; // For COMException
-using Microsoft.Office.Interop.Excel;
-using Application = Microsoft.Office.Interop.Excel.Application;
+using ReservoirSimulator.Utilities;
+// For Missing.Value and BindingFlags
+	// For COMException
 
 
-namespace WindowsFormsApplication1
+namespace ReservoirSimulator
 {
     
     public partial class MainForm : Form
@@ -413,16 +406,17 @@ namespace WindowsFormsApplication1
         {
             return (x % n) == 0;
         }
+
         private void SaveExcel()
         {
 
-            CreateExcelDoc excell_app = new CreateExcelDoc();
+            var excell_app = new ExcelDoc();
 
             for (int i = 0; i < P.GetLength(0); i++)
             {
                 for (int j = 0; j < P.GetLength(1); j++)
                 {
-                    excell_app.addData(i+1, j+1, P[i, j]);
+                    excell_app.AddData(i+1, j+1, P[i, j]);
                 }
             }
 
@@ -513,7 +507,7 @@ namespace WindowsFormsApplication1
 
         private void button2_Click(object sender, EventArgs e)
         {
-           Form1 f1 = new Form1(Qw, delta_t); // Instantiate a Form1 object.
+           Graph_Qw_vs_Time f1 = new Graph_Qw_vs_Time(Qw, delta_t); // Instantiate a Form1 object.
            f1.Show();
         }
 
@@ -528,86 +522,4 @@ namespace WindowsFormsApplication1
         }
 
     }
-
-
-
-
-    class CreateExcelDoc
-    {
-        
-        private Application app = null;
-        private Workbook workbook = null;
-        private Worksheet worksheet = null;
-        private Range workSheet_range = null;
-        public CreateExcelDoc()
-        {
-            createDoc(); 
-        }
-        public void createDoc()
-        {
-            try
-            {       
-                app = new Application();
-                app.Visible = true;
-                workbook = app.Workbooks.Add(1);
-                worksheet = (Worksheet)workbook.Sheets[1];
-            }
-            catch (Exception e)
-            {
-                Console.Write("Error");
-            }
-            finally
-            {
-            }
-        }
-
-public void createHeaders(int row, int col, string htext, string cell1, string cell2, int mergeColumns,string b, bool font,int size,string fcolor)
-        {
-            worksheet.Cells[row, col] = htext;
-            workSheet_range = worksheet.get_Range(cell1, cell2);
-            workSheet_range.Merge(mergeColumns);
-            switch(b)
-            {
-                case "YELLOW":
-                workSheet_range.Interior.Color = System.Drawing.Color.Yellow.ToArgb();
-                break;
-                case "GRAY":
-                    workSheet_range.Interior.Color = System.Drawing.Color.Gray.ToArgb();
-                break;
-                case "GAINSBORO":
-                    workSheet_range.Interior.Color = 
-			System.Drawing.Color.Gainsboro.ToArgb();
-                    break;
-                case "Turquoise":
-                    workSheet_range.Interior.Color = 
-			System.Drawing.Color.Turquoise.ToArgb();
-                    break;
-                case "PeachPuff":
-                    workSheet_range.Interior.Color = 
-			System.Drawing.Color.PeachPuff.ToArgb();
-                    break;
-                default:
-                  //  workSheet_range.Interior.Color = System.Drawing.Color..ToArgb();
-                    break;
-            }
-         
-            workSheet_range.Borders.Color = System.Drawing.Color.Black.ToArgb();
-            workSheet_range.Font.Bold = font;
-            workSheet_range.ColumnWidth = size;
-            if (fcolor.Equals(""))
-            {
-                workSheet_range.Font.Color = System.Drawing.Color.White.ToArgb();
-            }
-            else {
-                workSheet_range.Font.Color = System.Drawing.Color.Black.ToArgb();
-            }
-        }
-
-        public void addData(int row, int col, double data)
-        {
-            worksheet.Cells[row, col] = data;
-        }   
-
-    }
-
 }

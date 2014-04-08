@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace ReservoirSimulator
 {
     partial class MainForm
     {
@@ -975,7 +975,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::WindowsFormsApplication1.Properties.Resources.gridsetup2;
+			this.pictureBox1.Image = global::ReservoirSimulator.Properties.Resources.gridsetup2;
             this.pictureBox1.Location = new System.Drawing.Point(464, 12);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(352, 156);

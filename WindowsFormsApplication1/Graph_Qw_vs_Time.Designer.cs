@@ -1,6 +1,6 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace ReservoirSimulator
 {
-    partial class Form1
+    partial class Graph_Qw_vs_Time
     {
         /// <summary>
         /// Required designer variable.
